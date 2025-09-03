@@ -31,9 +31,10 @@ Class User {
     public function loginUser($email, $passwordInput) {
 
         // fetch user
-        $user = $this->dbConnection->fetchOne(
+        $user = $this->dbConnection->fetch(
             "SELECT * FROM users WHERE email = ?", 
-            [$email]
+            [$email],
+            false
         );
         
         // check user and password

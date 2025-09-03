@@ -29,8 +29,8 @@ class DB {
     }
     
     // helper method to fetch either all or one
-    public function fetchSomething($sql, $args = null, $everythingBool) {
-        if ($everythingBool) {
+    public function fetch($sql, $args = null, $all) {
+        if ($all) {
             return $this->run($sql, $args)->fetch();
         }
         else {
