@@ -28,19 +28,14 @@ class DB {
         }
     }
     
-    // helper method to fetch a single row
-    public function fetchOne($sql, $args = null) {
-        return $this->run($sql, $args)->fetch();
-    }
-    
-    // helper method to fetch all rows
-    public function fetchAll($sql, $args = null) {
-        return $this->run($sql, $args)->fetchAll();
-    }
-    
-    // get the last inserted ID
-    public function lastInsertId() {
-        return $this->pdo->lastInsertId();
+    // helper method to fetch either all or one
+    public function fetchSomething($sql, $args = null, $everythingBool) {
+        if ($everythingBool) {
+            return $this->run($sql, $args)->fetch();
+        }
+        else {
+            return $this->run($sql, $args)->fetchAll();
+        }
     }
 }
 

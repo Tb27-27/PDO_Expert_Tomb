@@ -22,6 +22,7 @@ Class User {
             [$email, $username, $hashedPassword]
         );
         
+        // check if sucessful more than 0 returns true
         return $stmt->rowCount() > 0;
 
     }
@@ -52,7 +53,6 @@ Class User {
         session_start();
         session_destroy();
     }
-
 }
 
 ?>
