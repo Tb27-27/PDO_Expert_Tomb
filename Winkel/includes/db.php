@@ -16,7 +16,7 @@ class DB {
         }
     }
     
-    // helper method to insert into
+    // helper method
     public function run($sql, $args = null) {
         try {
             $stmt = $this->pdo->prepare($sql);
@@ -27,17 +27,8 @@ class DB {
             throw new Exception("Query failed");
         }
     }
-    
-    // helper method to fetch either all or one
-    public function fetch($sql, $args = null, $all) {
-        if ($all) {
-            return $this->run($sql, $args)->fetch();
-        }
-        else {
-            return $this->run($sql, $args)->fetchAll();
-        }
-    }
 }
 
+session_start();
 
 ?>

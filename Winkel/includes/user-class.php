@@ -5,7 +5,7 @@ require "../includes/db.php";
 Class User {
 
     // make database connection
-    private $dbConnection; 
+    public $dbConnection; 
     
     // construct
     public function __construct() {
@@ -17,31 +17,31 @@ Class User {
 
         $hashedPassword = password_hash($passwordInput, PASSWORD_DEFAULT, ['cost' => 13]);
         
-        $stmt = $this->dbConnection->run(
+        $this->dbConnection->run(
             "INSERT INTO users (email, username, password) VALUES (?, ?, ?)",
             [$email, $username, $hashedPassword]
         );
-        
-        // check if sucessful more than 0 returns true
-        return $stmt->rowCount() > 0;
 
+        return true;
     }
 
     // login
     public function loginUser($email, $passwordInput) {
 
         // fetch user
-        $user = $this->dbConnection->fetch(
-            "SELECT * FROM users WHERE email = ?", 
-            [$email],
-            false
+        $stmt = $this->dbConnection->run(
+            "SELECT id, username, email, password FROM users WHERE email = ? LIMIT 1", 
+            [$email]
         );
+
+        $fetchUser = $stmt->fetch(PDO::FETCH_ASSOC);
         
+        $hashedPassword = password_hash($passwordInput, PASSWORD_DEFAULT, ['cost' => 13]);
+
         // check user and password
-        if ($user && password_verify($passwordInput, $user['password'])) {
-            session_start();
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
+        if ($fetchUser && password_verify($passwordInput,$hashedPassword)) {
+            $_SESSION['user_id'] = $fetchUser['id'];
+            $_SESSION['username'] = $fetchUser['username'];
             return true;
         }
         
@@ -51,8 +51,8 @@ Class User {
 
     // logout
     public function logOutUser() {
-        session_start();
         session_destroy();
+        session_start();
     }
 }
 
