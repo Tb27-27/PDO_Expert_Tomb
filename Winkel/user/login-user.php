@@ -54,7 +54,7 @@
         else
         {
             echo
-                "<h2 class='user_h2'>Login gelukt, welkom, " . $_SESSION['username'] . "</h2>". "<br> <a class='user_button' href='./logout'>log uit</a>";
+                "<h2 class='user_h2'>Login gelukt, welkom, " . $_SESSION['username'] . "</h2>". "<br> <a class='user_button' href='./logout.php'>log uit</a>";
         }
     ?>
 </body>

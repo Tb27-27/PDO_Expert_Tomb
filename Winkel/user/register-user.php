@@ -7,8 +7,8 @@
 
             // XSS Forcefield
             $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-            $username = htmlspecialchars($_POST['username']);
-            $password = $_POST['password'];
+            $username = trim($_POST['username']);
+            $password = $_POST['password']; 
             
             $emailCheck = $user->dbConnection->run(
                 "SELECT 1 FROM users WHERE email = ? LIMIT 1",

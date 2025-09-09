@@ -35,11 +35,10 @@ Class User {
         );
 
         $fetchUser = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        $hashedPassword = password_hash($passwordInput, PASSWORD_DEFAULT, ['cost' => 13]);
 
         // check user and password
-        if ($fetchUser && password_verify($passwordInput,$hashedPassword)) {
+        if ($fetchUser && password_verify($passwordInput,$fetchUser['password'])) {
+            session_regenerate_id(true);
             $_SESSION['user_id'] = $fetchUser['id'];
             $_SESSION['username'] = $fetchUser['username'];
             return true;
@@ -51,8 +50,8 @@ Class User {
 
     // logout
     public function logOutUser() {
+        $_SESSION = [];
         session_destroy();
-        session_start();
     }
 }
 
