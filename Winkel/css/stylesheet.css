@@ -1,14 +1,46 @@
+:root {
+
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: black;
+
+    background-image: url("../assets/hollowknight_bench.png");
+    background-color: #cccccc; /* Used if the image is unavailable */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+
+    height: auto;
+    min-height: 100vh;
+    margin: 0;
     
-    animation-name: example;
+    
+    animation-name: shine;
     animation-duration: 4s;
     animation-fill-mode: both;
     animation-iteration-count: infinite;
     animation-direction: alternate;
+
+    
+    overflow: hidden;
+
+    font-family: 'Roboto';
+    font-size: 12px;
+}
+
+.rain {
+    height: 100vh;
+    width: 100vw;
+    z-index: 1;
 }
 
 
@@ -19,23 +51,31 @@ body {
     width: auto;
     height: auto;
     margin: auto;
+    padding: 20px;
     text-align: center;
-/* From https://css.glass */
-background: rgba(255, 255, 255, 0.42);
-border-radius: 16px;
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(8.2px);
--webkit-backdrop-filter: blur(8.2px);
-border: 1px solid rgba(255, 255, 255, 0.34);
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2.2px);
+    -webkit-backdrop-filter: blur(8.2px);
+    border: 1px solid rgba(255, 255, 255, 0.34);
+
+    z-index: 2;
 }
 
-.user_h3 {
-
+.user_container h1 {
+        
 }
 
-.user_h2 {
+.user_container h2 {
     
 }
+
+.user_container h3 {
+
+}
+
 
 .user_form {
     display: flex;
@@ -47,7 +87,30 @@ border: 1px solid rgba(255, 255, 255, 0.34);
     margin: 20px;
 }
 
-@keyframes example {
-  from {background-color: red;}
-  to {background-color: yellow;}
+@keyframes shine {
+  from {
+    box-shadow: inset 0 0 0 1000px rgba(0,0,0,.15);
+  }
+  to {
+    box-shadow: inset 0 0 0 1000px rgba(0,0,0,.45);
+  }
+}
+
+.rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.droplet {
+  position: absolute;
+  height: 15px;
+  width: 1px;
+  background-color: white;
+  top: 0;
+  transform: rotate(0deg);
 }
