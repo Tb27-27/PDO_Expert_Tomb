@@ -1,5 +1,5 @@
 <?
-require "../";
+require_once "../includes/product-class.php";
 ?>
 
 <!DOCTYPE html>
@@ -14,5 +14,7 @@ require "../";
     <form action="" method="POST">
 
     </form>
+
+    <script src="../javascript/script.js"></script>
 </body>
 </html>

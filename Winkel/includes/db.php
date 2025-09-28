@@ -29,6 +29,4 @@ class DB {
     }
 }
 
-session_start();
-
 ?>

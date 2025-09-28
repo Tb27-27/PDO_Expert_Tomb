@@ -1,6 +1,6 @@
 <?php
 
-require "../includes/product-class.php"
+require_once "../includes/product-class.php"
 
 ?>
 
@@ -14,6 +14,8 @@ require "../includes/product-class.php"
     </title>
 </head>
 <body>
-    
+
+
+    <script src="../javascript/script.js"></script>
 </body>
 </html>

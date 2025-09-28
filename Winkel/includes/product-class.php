@@ -1,5 +1,6 @@
 <?php
-require "../includes/db.php";
+
+require_once "db.php";
 
 class Product {
     
