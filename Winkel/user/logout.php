@@ -18,43 +18,60 @@ try {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logout</title>
+    <title>Logout - Tot Ziens</title>
     <link rel="stylesheet" href="../css/stylesheet.css">
 </head>
 <body>
     <!-- Rain -->
     <div class="rain"></div>
+    <div class="wisps"></div>
 
     <div class='user_container'>
         <?php if (isset($success)): ?>
-            <div class='success-message'>
-                <strong>Uitloggen gelukt</strong><br>
-                Tot ziens, <?php echo htmlspecialchars($username); ?>!<br>
-                Je wordt doorgestuurd naar de login pagina...
+            <div class='logout-message'>
+                <div class='logout-icon'>👋</div>
+                
+                <h1>Tot ziens, <?php echo htmlspecialchars($username); ?>!</h1>
+                
+                <p class='user_h2 success-login-message'>
+                    ✓ Je bent succesvol uitgelogd
+                </p>
+                
+                <div class='progress-bar'>
+                    <div class='progress-fill'></div>
+                </div>
+                
+                <div class='action-buttons'>
+                    <a href='./login-user.php' class='user_button'>Direct naar login</a>
+                    <a href='../frontpage.php' class='secondary-button'>← Terug naar homepage</a>
+                </div>
             </div>
-            
-            <a href='./login-user.php' class='user_button'>Direct naar login</a>
-            <br>
-            <a href='../frontpage.php' class='back-link'>Terug naar homepage</a>
             
             <script>
                 // Redirect after 3 seconds
-                setTimeout(function() {
+                setTimeout(() => {
                     window.location.href = './login-user.php';
                 }, 3000);
             </script>
             
         <?php else: ?>
+            <div class='logout-icon' style='font-size: 3rem;'>⚠️</div>
+            
+            <h1>Fout bij uitloggen</h1>
+            
             <div class='error-message'>
-                <strong>Fout bij uitloggen:</strong><br>
+                <strong>Er ging iets mis:</strong><br>
                 <?php echo htmlspecialchars($error); ?>
             </div>
             
-            <a href='./login-user.php' class='user_button'>Naar login</a>
+            <div class='action-buttons'>
+                <a href='./login-user.php' class='user_button'>Naar login pagina</a>
+                <a href='../frontpage.php' class='secondary-button'>← Terug naar homepage</a>
+            </div>
         <?php endif; ?>
     </div>
 

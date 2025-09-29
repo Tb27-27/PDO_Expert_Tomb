@@ -1,7 +1,5 @@
 <?php
-
 session_start();
-
 require_once "../includes/user-class.php";
 
 // Variables for the form
@@ -65,24 +63,29 @@ try {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login User</title>
+    <title>Login - Welkom Terug</title>
     <link rel="stylesheet" href="../css/stylesheet.css">
 </head>
 <body>
     <!-- Rain -->
     <div class="rain"></div>
+    <div class="wisps"></div>
 
     <?php if (!isset($_SESSION["username"]) && !$success): ?>
         <div class='user_container'>
-            <h3 class='user_h3'>Login</h3>
+            <div class='login-icon'>🔐</div>
+            <h1>Welkom Terug</h1>
+            <p class='user_h2 subtitle-text'>
+                Log in om door te gaan
+            </p>
             
             <?php if (!empty($errors)): ?>
                 <div class="error-message">
-                    <strong>Login mislukt:</strong><br>
+                    <strong>⚠️ Login mislukt</strong><br>
                     <?php foreach ($errors as $error): ?>
                         • <?php echo htmlspecialchars($error); ?><br>
                     <?php endforeach; ?>
@@ -95,46 +98,67 @@ try {
                            name='login' 
                            placeholder='Gebruikersnaam of Email' 
                            value="<?php echo htmlspecialchars($loginInput); ?>"
-                           required>
+                           required 
+                           autocomplete="username">
                 </div>
                 
                 <div class="form-group">
                     <input type='password' 
                            name='password' 
                            placeholder='Wachtwoord' 
-                           required>
+                           required 
+                           autocomplete="current-password">
                 </div>
                 
                 <input class='user_button' type='submit' value='Inloggen'>
             </form>
             
-            <a href="./register-user.php" class="back-link">
-                Nog geen account? Registreren →
+            <div class='divider'></div>
+            
+            <a href="./register-user.php" class="secondary-button">
+                Nog geen account? Registreren
+            </a>
+            
+            <a href="../frontpage.php" class="back-link">
+                ← Terug naar homepage
             </a>
         </div>
         
     <?php elseif ($success || isset($_SESSION["username"])): ?>
         <div class='user_container'>
             <?php if ($success): ?>
-                <div class="success-message">
-                    <strong>Login gelukt!</strong><br>
-                    Welkom, <?php echo htmlspecialchars($_SESSION['username']); ?>!<br>
-                    Je wordt doorgestuurd naar de homepage...
-                    <script>
-                        setTimeout(function() {
-                            window.location.href = '../frontpage.php';
-                        }, 3000);
-                    </script>
+                <div class='login-icon'>✨</div>
+                <h1>Welkom, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
+                
+                <p class='user_h2 success-login-message'>
+                    ✓ Je bent succesvol ingelogd
+                </p>
+                
+                <div class='progress-bar'>
+                    <div class='progress-fill'></div>
                 </div>
+                
+                <div class='action-buttons'>
+                    <a class='user_button' href='./dashboard-user.php'>Ga naar homepage</a>
+                    <a class='secondary-button' href='./logout.php'>Uitloggen</a>
+                </div>
+                
+                <script>
+                    setTimeout(function() {
+                        window.location.href = './dashboard-user.php';
+                    }, 3000);
+                </script>
+                
             <?php else: ?>
-                <h2 class='user_h2'>Welkom, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
+                <div class='login-icon'>👋</div>
+                <h1>Welkom, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
+                <p class='user_h2 already-logged-in'>Je bent al ingelogd</p>
+                
+                <div class='action-buttons'>
+                    <a class='user_button' href='./dashboard-user.php'>Ga naar dashboard</a>
+                    <a class='secondary-button' href='./logout.php'>Uitloggen</a>
+                </div>
             <?php endif; ?>
-            
-            <a class='user_button' href='./logout.php'>Uitloggen</a>
-            <br>
-            <a href="../frontpage.php" class="back-link">
-                ← Terug naar homepage
-            </a>
         </div>
     <?php endif; ?>
 

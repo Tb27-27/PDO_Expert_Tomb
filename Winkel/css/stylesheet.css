@@ -84,6 +84,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
     z-index: 2;
     transition: transform 0.3s ease;
+    animation: fadeInUp 0.5s ease-out;
 }
 
 .user_container:hover {
@@ -231,6 +232,422 @@ body {
     text-decoration: underline;
 }
 
+/* Logout & Login Page Specific Styles */
+.logout-icon,
+.login-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    animation: fadeInScale 0.6s ease-out;
+}
+
+.logout-message {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4a9eff, #357abd);
+    width: 0%;
+    animation: fillProgress 3s linear forwards;
+    box-shadow: 0 0 10px rgba(74, 158, 255, 0.5);
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.secondary-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.secondary-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 20px 0;
+}
+
+.success-login-message {
+    background: rgba(134, 239, 172, 0.25);
+    border: 1px solid rgba(134, 239, 172, 0.6);
+    color: #d4ffdd;
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+}
+
+.subtitle-text {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.already-logged-in {
+    margin: 20px 0;
+}
+
+/* Dashboard Specific Styles */
+.info-section {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+    backdrop-filter: blur(5px);
+}
+
+.info-item {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    margin: 12px 0;
+    line-height: 1.6;
+}
+
+.info-item strong {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* Product Form Specific Styles */
+.product-textarea {
+    margin: 10px 0;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 16px;
+    width: 100%;
+    min-height: 100px;
+    resize: vertical;
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.product-textarea:focus {
+    outline: none;
+    border-color: rgba(74, 158, 255, 0.5);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 10px rgba(74, 158, 255, 0.2);
+}
+
+.product-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.file-label {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.file-input {
+    margin: 10px 0;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px;
+    width: 100%;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.file-input:focus {
+    outline: none;
+    border-color: rgba(74, 158, 255, 0.5);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 10px rgba(74, 158, 255, 0.2);
+}
+
+.file-input::file-selector-button {
+    background: rgba(74, 158, 255, 0.2);
+    border: 1px solid rgba(74, 158, 255, 0.4);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.file-input::file-selector-button:hover {
+    background: rgba(74, 158, 255, 0.3);
+}
+
+.file-hint {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    display: block;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+/* Product Table Styles */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin: 20px 0;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.product-table thead {
+    background: rgba(74, 158, 255, 0.2);
+}
+
+.product-table th {
+    padding: 15px 10px;
+    text-align: left;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid rgba(74, 158, 255, 0.3);
+}
+
+.product-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.product-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.product-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.product-table td {
+    padding: 15px 10px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+.product-code {
+    font-family: 'Courier New', monospace;
+    background: rgba(74, 158, 255, 0.2);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: #ffffff;
+}
+
+.description-cell {
+    max-width: 300px;
+}
+
+.image-cell {
+    text-align: center;
+}
+
+.product-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.no-image {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.price-cell {
+    font-weight: 500;
+}
+
+.price-tag {
+    color: #86efac;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.actions-cell {
+    white-space: nowrap;
+}
+
+.action-button {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 2px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.edit-button {
+    background: rgba(74, 158, 255, 0.2);
+    border: 1px solid rgba(74, 158, 255, 0.4);
+    color: #ffffff;
+}
+
+.edit-button:hover {
+    background: rgba(74, 158, 255, 0.837);
+    transform: translateY(-1px);
+}
+
+.delete-button {
+    background: rgba(255, 107, 107, 0.2);
+    border: 1px solid rgba(255, 107, 107, 0.4);
+    color: #ffffff;
+}
+
+.delete-button:hover {
+    background: rgba(255, 107, 107, 0.756);
+    transform: translateY(-1px);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    margin: 20px 0;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.empty-state h3 {
+    color: #ffffff;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.empty-state p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+/* Product Count */
+.product-count {
+    background: rgba(74, 158, 255, 0.15);
+    border: 1px solid rgba(74, 158, 255, 0.3);
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.product-count strong {
+    color: #4a9eff;
+    font-weight: 600;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+    .product-table {
+        font-size: 0.85rem;
+    }
+    
+    .product-table thead {
+        display: none;
+    }
+    
+    .product-table tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.08);
+    }
+    
+    .product-table td {
+        display: block;
+        text-align: left;
+        padding: 8px 0;
+        border: none;
+    }
+    
+    .product-table td:before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #4a9eff;
+        display: inline-block;
+        min-width: 100px;
+        margin-right: 10px;
+    }
+    
+    .actions-cell {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .actions-cell:before {
+        display: block;
+        margin-bottom: 8px;
+    }
+    
+    .action-button {
+        display: block;
+        text-align: center;
+        margin: 0;
+        width: 100%;
+    }
+    
+    .image-cell {
+        text-align: left;
+    }
+}
+
 /* Animations */
 @keyframes shine {
   from {
@@ -239,6 +656,37 @@ body {
   to {
     box-shadow: inset 0 0 0 1000px rgba(0,0,0,.45);
   }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fillProgress {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
 }
 
 /* Remove old unused styles */

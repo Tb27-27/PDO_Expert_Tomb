@@ -4,23 +4,10 @@ session_start();
 
 // Simple check if user is logged in
 $isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
-
-// Get basic statistics if logged in
-$aantalProducten = 0;
-if ($isLoggedIn) {
-    try {
-        require_once "./includes/product-class.php";
-        $product = new Product();
-        $producten = $product->haalAlleProductenOp();
-        $aantalProducten = count($producten);
-    } catch (Exception $e) {
-        // If there's an error getting products, just continue
-    }
-}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,49 +23,37 @@ if ($isLoggedIn) {
         
         <?php if ($isLoggedIn): ?>
             <!-- Show this if user is logged in -->
-            <h1>Welkom terug, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
-            <h2>PDO Expert Shop Dashboard</h2>
+            <div class='login-icon'>👋</div>
+            <h1>Welkom, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
+            <p class='user_h2 subtitle-text'>
+                Je bent ingelogd
+            </p>
             
-            <div class="info-box">
-                <h3>Jouw sessie informatie:</h3>
-                <p><strong>Gebruikersnaam:</strong> <?php echo htmlspecialchars($_SESSION['username']); ?></p>
-                <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email']); ?></p>
-                <p><strong>Producten in database:</strong> <?php echo $aantalProducten; ?></p>
-            </div>
-            
-            <!-- Product Management Section -->
-            <div class="info-box">
-                <h3>Product Management</h3>
-                <p>Beheer je winkel producten via de onderstaande opties:</p>
-            </div>
-            
-            <!-- Navigation for logged in users -->
-            <div class="dashboard-nav">
-                <a href="./product/view-product.php" class="login_button">Producten Bekijken</a>
-                <a href="./product/insert-product.php" class="user_button">+ Product Toevoegen</a>
-            </div>
-            
-            <div class="dashboard-nav">
+            <div class='action-buttons'>
                 <a href="./user/dashboard-user.php" class="user_button">Dashboard</a>
-                <a href="./user/logout.php" class="user_button">Uitloggen</a>
+                <a href="./user/logout.php" class="secondary-button">Uitloggen</a>
             </div>
             
         <?php else: ?>
             <!-- Show this if user is NOT logged in -->
-            <h1>Welcome to the shop made from the assignments from PDO: Expert</h1>
-            <h2>Made by: Tom Bijsterbosch</h2>
-            <h2>Class: OITSDO24A</h2>
-            <h3>Login</h3>
+            <div class='login-icon'>🛍️</div>
+            <h1>PDO Expert Shop</h1>
+            <p class='user_h2 subtitle-text'>
+                Welkom bij de shop<br>
+                <small style='font-size: 0.9rem; opacity: 0.8;'>Gemaakt door Tom Bijsterbosch - OITSDO24A</small>
+            </p>
             
-            <!-- Navigation for guests -->
-            <a href="./user/login-user.php" class="login_button">Log in</a>
-            <a href="./user/register-user.php" class="user_button">Registreren</a>
+            <div class='divider'></div>
+            
+            <div class='action-buttons'>
+                <a href="./user/login-user.php" class="user_button">Inloggen</a>
+                <a href="./user/register-user.php" class="secondary-button">Registreren</a>
+            </div>
             
         <?php endif; ?>
 
     </div>
 
     <script src="./javascript/script.js"></script>
-        <script src="./javascript/Wisps.js"></script>
 </body>
 </html>

@@ -47,25 +47,25 @@ try {
             if($check !== false) {
                 $uploadOk = 1;
             } else {
-                $errors[] = "File is not an image.";
+                $errors[] = "Bestand is geen geldige afbeelding";
                 $uploadOk = 0;
             }
             
             // Check if file already exists
             if (file_exists($target_file)) {
-                $errors[] = "Sorry, file already exists.";
+                $errors[] = "Dit bestand bestaat al";
                 $uploadOk = 0;
             }
             
             // Check file size (500KB max)
-            if ($_FILES["fileToUpload"]["size"] > 500000) {
-                $errors[] = "Sorry, your file is too large.";
+            if ($_FILES["fileToUpload"]["size"] > 50000000) {
+                $errors[] = "Bestand is te groot (max 500MB)";
                 $uploadOk = 0;
             }
             
             // Allow certain file formats
             if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-                $errors[] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                $errors[] = "Alleen JPG, JPEG, PNG & GIF bestanden toegestaan";
                 $uploadOk = 0;
             }
             
@@ -74,7 +74,7 @@ try {
                 if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                     $foto = "uploads/" . basename($_FILES["fileToUpload"]["name"]);
                 } else {
-                    $errors[] = "Sorry, there was an error uploading your file.";
+                    $errors[] = "Fout bij uploaden bestand";
                 }
             }
         }
@@ -120,44 +120,59 @@ try {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Toevoegen</title>
     <link rel="stylesheet" href="../css/stylesheet.css">
 </head>
-<body>
+<body style="overflow-y: auto; min-height: 100vh;">
     <!-- Rain -->
     <div class="rain"></div>
+    <div class="wisps"></div>
 
-    <div class='user_container'>
-        <h1>Nieuw Product Toevoegen</h1>
-        <h2>Welkom, <?php echo htmlspecialchars($_SESSION['username']); ?></h2>
-
+    <div class='user_container' style="max-width: 600px; margin: 40px auto;">
+        
         <?php if ($success): ?>
-            <div class="success-message">
-                <strong>Product succesvol toegevoegd!</strong><br>
-                Het product is opgeslagen in de database.<br>
-                Je wordt doorgestuurd naar het overzicht...
-                <script>
-                    setTimeout(function() {
-                        window.location.href = './view-product.php';
-                    }, 3000);
-                </script>
+            <div class='login-icon'>✅</div>
+            <h1>Product Toegevoegd!</h1>
+            
+            <p class='user_h2 success-login-message'>
+                ✓ Het product is succesvol opgeslagen
+            </p>
+            
+            <div class='progress-bar'>
+                <div class='progress-fill'></div>
             </div>
-        <?php endif; ?>
-
-        <?php if (!empty($errors)): ?>
-            <div class="error-message">
-                <strong>Product toevoegen mislukt:</strong><br>
-                <?php foreach ($errors as $error): ?>
-                    • <?php echo htmlspecialchars($error); ?><br>
-                <?php endforeach; ?>
+            
+            <div class='action-buttons'>
+                <a href='./view-product.php' class='user_button'>Naar product overzicht</a>
+                <a href='./insert-product.php' class='secondary-button'>Nog een product toevoegen</a>
             </div>
-        <?php endif; ?>
+            
+            <script>
+                setTimeout(function() {
+                    window.location.href = './view-product.php';
+                }, 3000);
+            </script>
+            
+        <?php else: ?>
+            <div class='login-icon'>📦</div>
+            <h1>Nieuw Product</h1>
+            <p class='user_h2 subtitle-text'>
+                Vul de gegevens in om een product toe te voegen
+            </p>
 
-        <?php if (!$success): ?>
+            <?php if (!empty($errors)): ?>
+                <div class="error-message">
+                    <strong>⚠️ Product toevoegen mislukt</strong><br>
+                    <?php foreach ($errors as $error): ?>
+                        • <?php echo htmlspecialchars($error); ?><br>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
             <form method="POST" enctype="multipart/form-data" class='user_form'>
                 <div class="form-group">
                     <input type="text" 
@@ -169,21 +184,21 @@ try {
 
                 <div class="form-group">
                     <textarea name="omschrijving" 
+                              class="product-textarea"
                               placeholder="Product Omschrijving"
-                              required
-                              style="min-height: 80px; resize: vertical; font-family: inherit;"><?php echo htmlspecialchars($omschrijving); ?></textarea>
+                              required><?php echo htmlspecialchars($omschrijving); ?></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label style="color: white; font-size: 14px; margin-bottom: 5px; display: block;">
-                        Product Foto (optioneel):
+                    <label class="file-label">
+                        📷 Product Foto
                     </label>
                     <input type="file" 
                            name="fileToUpload" 
-                           accept="image/*"
-                           style="background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.3);">
-                    <small style="color: rgba(255, 255, 255, 0.7); font-size: 12px; display: block; margin-top: 5px;">
-                        Alleen JPG, JPEG, PNG & GIF bestanden. Max 500KB.
+                           class="file-input"
+                           accept="image/*">
+                    <small class="file-hint">
+                        Alleen JPG, JPEG, PNG & GIF bestanden. Max 500MB.
                     </small>
                 </div>
 
@@ -192,7 +207,7 @@ try {
                            name="prijs" 
                            step="0.01" 
                            min="0" 
-                           placeholder="Prijs per stuk (euro)"
+                           placeholder="Prijs per stuk (€)"
                            value="<?php echo htmlspecialchars($prijs); ?>"
                            required>
                 </div>
@@ -200,10 +215,11 @@ try {
                 <input class='user_button' type="submit" value="Product Toevoegen">
             </form>
 
-            <div style="margin-top: 20px;">
-                <a href="./view-product.php" class="back-link">Naar product overzicht</a>
-                <br>
-                <a href="../user/dashboard-user.php" class="back-link">Terug naar dashboard</a>
+            <div class='divider'></div>
+
+            <div class='action-buttons'>
+                <a href="./view-product.php" class="secondary-button">📋 Naar product overzicht</a>
+                <a href="../user/dashboard-user.php" class="secondary-button">← Terug naar dashboard</a>
             </div>
         <?php endif; ?>
     </div>

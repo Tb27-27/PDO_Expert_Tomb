@@ -22,46 +22,46 @@ $aantalProducten = count($producten);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard User</title>
+    <title>Dashboard - <?php echo htmlspecialchars($username); ?></title>
     <link rel="stylesheet" href="../css/stylesheet.css">
 </head>
-<body>
+<body style="overflow-y: auto; min-height: 100vh;">
     <!-- Rain -->
     <div class="rain"></div>
+    <div class="wisps"></div>
 
-    <div class='user_container' style="max-width: 600px;">
-        <h1>Welkom op je dashboard</h1>
-        <h2>Hallo, <?php echo htmlspecialchars($username); ?>!</h2>
+    <div class='user_container' style="max-width: 600px; margin: 40px auto;">
+        <div class='login-icon'>📊</div>
+        <h1>Dashboard</h1>
+        <p class='user_h2 subtitle-text'>
+            Welkom terug, <?php echo htmlspecialchars($username); ?>!
+        </p>
         
         <!-- Account information -->
-        <div class="info-box">
-            <h3>Je account informatie:</h3>
-            <p><strong>Gebruikersnaam:</strong> <?php echo htmlspecialchars($username); ?></p>
-            <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
-            <p><strong>User ID:</strong> <?php echo htmlspecialchars($userId); ?></p>
+        <div class="info-section">
+            <p class="info-item"><strong>👤 Gebruiker:</strong> <?php echo htmlspecialchars($username); ?></p>
+            <p class="info-item"><strong>📧 Email:</strong> <?php echo htmlspecialchars($email); ?></p>
+            <p class="info-item"><strong>📦 Producten:</strong> <?php echo $aantalProducten; ?></p>
         </div>
         
-        <!-- Product management section -->
-        <div class="info-box">
-            <h3>Product Management</h3>
-            <p><strong>Aantal producten in database:</strong> <?php echo $aantalProducten; ?></p>
-            <p>Beheer je producten via de onderstaande opties:</p>
-        </div>
+        <div class='divider'></div>
         
         <!-- Product management navigation -->
-        <div class="dashboard-nav">
-            <a href="../product/insert-product.php" class="login_button">+ Product Toevoegen</a>
-            <a href="../product/view-product.php" class="user_button">Producten Bekijken</a>
+        <div class='action-buttons'>
+            <a href="../product/insert-product.php" class="user_button">+ Product Toevoegen</a>
+            <a href="../product/view-product.php" class="user_button">📋 Producten Bekijken</a>
         </div>
         
+        <div class='divider'></div>
+        
         <!-- General navigation -->
-        <div class="dashboard-nav">
-            <a href="../frontpage.php" class="user_button">Naar homepage</a>
-            <a href="./logout.php" class="user_button">Uitloggen</a>
+        <div class='action-buttons'>
+            <a href="../frontpage.php" class="secondary-button">← Terug naar homepage</a>
+            <a href="./logout.php" class="secondary-button">Uitloggen</a>
         </div>
         
     </div>

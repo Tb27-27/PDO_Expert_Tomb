@@ -99,6 +99,7 @@ try {
 <body>
     <!-- Rain -->
     <div class="rain"></div>
+    <div class="wisps"></div>
 
     <div class='user_container'>
         <h3 class='user_h3'>Account aanmaken</h3>
