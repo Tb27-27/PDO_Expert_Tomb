@@ -30,7 +30,7 @@ if ($isLoggedIn) {
 <body>
     <!-- Rain -->
     <div class="rain"></div>
-    <div class="fairies"></div>
+    <div class="wisps"></div>
 
     <div class='user_container'>
         
@@ -79,5 +79,6 @@ if ($isLoggedIn) {
     </div>
 
     <script src="./javascript/script.js"></script>
+        <script src="./javascript/Wisps.js"></script>
 </body>
 </html>
