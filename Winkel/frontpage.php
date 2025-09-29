@@ -30,6 +30,7 @@ if ($isLoggedIn) {
 <body>
     <!-- Rain -->
     <div class="rain"></div>
+    <div class="fairies"></div>
 
     <div class='user_container'>
         
