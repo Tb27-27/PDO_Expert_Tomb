@@ -60,9 +60,19 @@ body {
 .wisp {
     position: absolute;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 208, 0, 1) 0%, rgba(255, 208, 0, 0.8) 40%, rgba(255, 208, 0, 0) 70%);
-    opacity: 0;
+    background: 
+        radial-gradient(circle, rgba(255, 208, 0, 1) 0%, rgba(255, 208, 0, 0.8) 40%, rgba(255, 208, 0, 0) 70%),
+        url("../assets/Wisp.png");
+    background-size: cover, contain;
+    background-repeat: no-repeat, no-repeat;
+    background-position: center, center;
     pointer-events: none;
+    animation: spin 6s infinite;
+}
+
+@keyframes spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .user_container {

@@ -1,0 +1,17 @@
+Mage die hoger is dan level 33
+Warrior met meer dan 15 strength
+
+db.players.find(
+    {$or: [ 
+        {   
+            $and: [ 
+                { class: "Mage"}, 
+                {level: {$gt: 33}}
+            ] 
+        },
+        { 
+            $and: [ 
+                {class: "Warrior"},
+                {"stats.strength": {$gt: 15}}
+        ]} 
+    ]})

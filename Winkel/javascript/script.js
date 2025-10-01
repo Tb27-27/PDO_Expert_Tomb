@@ -68,21 +68,27 @@ function createWisp() {
   const wisp = document.createElement('div');
   wisp.classList.add('wisp');
   
-  const size = 2 + Math.random() * 2;
+  const size = 5 + Math.random() * 10;
   wisp.style.width = `${size}px`;
   wisp.style.height = `${size}px`;
   wisp.style.left = `${Math.random() * window.innerWidth}px`;
   wisp.style.top = `${Math.random() * window.innerHeight}px`;
-  wisp.style.boxShadow = `0 0 ${size * 4}px ${size * 3}px rgba(255, 231, 121, 0.8)`;
+  wisp.style.boxShadow = `0 0 ${size * 0.5}px ${size * 0.5}px rgba(255, 231, 121, 0.8)`;
   wisp.style.filter = 'blur(4px)';
   wisp.style.opacity = '0';
   wisp.style.transition = 'opacity 1.5s ease-in';
-  
+  wisp.style.transform.rotateZ = "0";
+
+
+
   wispsContainer.appendChild(wisp);
   
   // Fade in smoothly
   setTimeout(() => wisp.style.opacity = '1', 100);
-  
+
+  let randomDirection = Math.floor() * 360;
+  setTimeout(() => wisp.style.left = randomDirection)
+
   // Remove after 3-5 seconds
   setTimeout(() => {
     wisp.style.transition = 'opacity 1s ease-out';
