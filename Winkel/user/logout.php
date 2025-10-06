@@ -59,7 +59,7 @@ try {
             </script>
             
         <?php else: ?>
-            <div class='logout-icon' style='font-size: 3rem;'>⚠️</div>
+            <div class='logout-icon'>⚠️</div>
             
             <h1>Fout bij uitloggen</h1>
             

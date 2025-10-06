@@ -1,16 +1,16 @@
 <?php
-session_start();
-require_once "../includes/product-class.php";
+    session_start();
+    require_once "../includes/product-class.php";
 
-// Check if user is logged in
-if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
-    header("Location: ./login-user.php");
-    exit();
-}
+    // Check if user is logged in
+    if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+        header("Location: ../user/login-user.php");
+        exit();
+    }
 
-// Get all products from database
-$product = new Product();
-$producten = $product->haalAlleProductenOp();
+    // Get all products from database
+    $product = new Product();
+    $producten = $product->haalAlleProductenOp();
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -20,12 +20,12 @@ $producten = $product->haalAlleProductenOp();
     <title>Product Overzicht</title>
     <link rel="stylesheet" href="../css/stylesheet.css">
 </head>
-<body style="overflow-y: auto; min-height: 100vh;">
+<body>
     <!-- Rain -->
     <div class="rain"></div>
     <div class="wisps"></div>
     
-    <div class='user_container' style="max-width: 900px; margin: 40px auto;">
+    <div class='user_container'>
         <div class='login-icon'>📋</div>
         <h1>Product Overzicht</h1>
         <p class='user_h2 subtitle-text'>
@@ -85,8 +85,10 @@ $producten = $product->haalAlleProductenOp();
                                 <span class="price-tag">€<?php echo number_format($p['prijsPerStuk'], 2, ',', '.'); ?></span>
                             </td>
                             <td data-label="Acties" class="actions-cell">
+                                <!-- FIXME: Opdracht 5 Edit product -->
                                 <a href="edit-product.php?id=<?php echo $p['id']; ?>" 
                                    class="action-button edit-button">✏️ Bewerken</a>
+                                <!-- FIXME: Opdracht 6 Delete product ? -->
                                 <a href="delete-product.php?id=<?php echo $p['id']; ?>" 
                                    class="action-button delete-button" 
                                    onclick="return confirm('Weet je zeker dat je dit product wilt verwijderen?')">🗑️ Verwijderen</a>

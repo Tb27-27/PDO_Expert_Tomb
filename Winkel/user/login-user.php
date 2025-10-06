@@ -79,6 +79,9 @@ try {
         <div class='user_container'>
             <div class='login-icon'>🔐</div>
             <h1>Welkom Terug</h1>
+            <h2>Inlog gegevens:</h2>
+            <h2>admin@admin.com</h2>
+            <h2>123</h2>
             <p class='user_h2 subtitle-text'>
                 Log in om door te gaan
             </p>

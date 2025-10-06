@@ -29,12 +29,12 @@ $aantalProducten = count($producten);
     <title>Dashboard - <?php echo htmlspecialchars($username); ?></title>
     <link rel="stylesheet" href="../css/stylesheet.css">
 </head>
-<body style="overflow-y: auto; min-height: 100vh;">
+<body>
     <!-- Rain -->
     <div class="rain"></div>
     <div class="wisps"></div>
 
-    <div class='user_container' style="max-width: 600px; margin: 40px auto;">
+    <div class='user_container'>
         <div class='login-icon'>📊</div>
         <h1>Dashboard</h1>
         <p class='user_h2 subtitle-text'>

@@ -40,7 +40,7 @@ $isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
             <h1>PDO Expert Shop</h1>
             <p class='user_h2 subtitle-text'>
                 Welkom bij de shop<br>
-                <small style='font-size: 0.9rem; opacity: 0.8;'>Gemaakt door Tom Bijsterbosch - OITSDO24A</small>
+                <small class='undertitle'>Gemaakt door Tom Bijsterbosch - OITSDO24A</small>
             </p>
             
             <div class='divider'></div>

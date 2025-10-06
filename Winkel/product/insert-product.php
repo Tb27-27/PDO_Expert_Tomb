@@ -127,13 +127,12 @@ try {
     <title>Product Toevoegen</title>
     <link rel="stylesheet" href="../css/stylesheet.css">
 </head>
-<body style="overflow-y: auto; min-height: 100vh;">
+<body>
     <!-- Rain -->
     <div class="rain"></div>
     <div class="wisps"></div>
 
-    <div class='user_container' style="max-width: 600px; margin: 40px auto;">
-        
+    <div class='user_container insert-product-container'>        
         <?php if ($success): ?>
             <div class='login-icon'>✅</div>
             <h1>Product Toegevoegd!</h1>

@@ -721,3 +721,13 @@ body {
         font-size: 16px;
     }
 }
+
+.undertitle {
+    font-size: 0.9rem; 
+    opacity: 0.8;
+}
+
+.insert-product-container {
+    max-width: 600px; 
+    margin: 40px auto;
+}

@@ -18,9 +18,9 @@ create table users (
 );
 
 -- Insert dummy users
--- admin = password: admin123
+-- admin = password: 123
 INSERT INTO users (username, email, password) VALUES
-('admin', 'admin@admin.com', '$2y$13$3tPsRQp5.Pv0hqLPExz6zerv7kF49QFqNdRjrgP9XgucwPqG64OVm');
+('admin', 'admin@admin.com', '$2y$10$/JqDb7hNr2d762CsnG7ByO4EKIk6ZXIXrmkMq.UWcErUlM0vjxADy');
 
 
 -- Insert dummy products
