@@ -1,3 +1,5 @@
+// FIXME: Maak het zo dat de body height automatisch word overgemaakt naar de wisp en rain
+
 console.log("javascript loaded");
 
 let gravity = 35; // speed of falling
