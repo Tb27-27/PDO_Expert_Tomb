@@ -43,7 +43,7 @@
             
             // Behoud de oude foto als er geen nieuwe wordt geüpload
             $nieuwe_foto = $foto;
-            $uploadOk = 1;
+            $uploadCheck = 1;
             
             // Controleer of er een nieuw bestand is geüpload
             if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] == 0) {
@@ -60,26 +60,26 @@
                 // Controleer of het bestand een echte afbeelding is
                 $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
                 if($check !== false) {
-                    $uploadOk = 1;
+                    $uploadCheck = 1;
                 } else {
                     $errors[] = "Bestand is geen geldige afbeelding";
-                    $uploadOk = 0;
+                    $uploadCheck = 0;
                 }
                 
                 // Controleer bestandsgrootte (500MB max)
                 if ($_FILES["fileToUpload"]["size"] > 50000000) {
                     $errors[] = "Bestand is te groot (max 500MB)";
-                    $uploadOk = 0;
+                    $uploadCheck = 0;
                 }
                 
                 // Sta alleen bepaalde bestandsformaten toe
                 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
                     $errors[] = "Alleen JPG, JPEG, PNG & GIF bestanden toegestaan";
-                    $uploadOk = 0;
+                    $uploadCheck = 0;
                 }
                 
                 // Probeer het bestand te uploaden als alles oké is
-                if ($uploadOk == 1) {
+                if ($uploadCheck == 1) {
                     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                         // Verwijder de oude foto als er een nieuwe is geüpload
                         if (!empty($foto) && file_exists("../" . $foto)) {
