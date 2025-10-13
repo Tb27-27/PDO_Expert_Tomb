@@ -2,58 +2,68 @@
 session_start();
 require_once "../includes/user-class.php";
 
-// Variables for the form
+// Maak een CSRF token aan als deze nog niet bestaat
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// Variabelen voor het formulier
 $loginInput = '';
 $errors = [];
 $success = false;
 
 try {
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $user = new User();
+        // Controleer eerst of het CSRF token geldig is
+        if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+            $errors[] = "Ongeldige beveiligingstoken. Vernieuw de pagina en probeer opnieuw.";
+        } else {
+            $user = new User();
 
-        // Get and clean the input
-        $loginInput = trim($_POST['login'] ?? ''); // Can be username or email
-        $password = $_POST['password'] ?? '';
+            // Haal de formuliergegevens op en verwijder spaties aan begin/eind
+            $loginInput = trim($_POST['login'] ?? ''); // Kan gebruikersnaam of email zijn
+            $password = $_POST['password'] ?? '';
 
-        // Check if everything is filled in
-        if (empty($loginInput)) {
-            $errors[] = "Gebruikersnaam of email is verplicht";
-        }
-        if (empty($password)) {
-            $errors[] = "Wachtwoord is verplicht";
-        }
-
-        // Try to login if there are no errors
-        if (empty($errors)) {
-            // Check if it's an email or username
-            $isEmail = filter_var($loginInput, FILTER_VALIDATE_EMAIL);
-            
-            if ($isEmail) {
-                // Login with email
-                $stmt = $user->dbConnection->run(
-                    "SELECT id, username, email, password FROM users WHERE email = ? LIMIT 1", 
-                    [$loginInput]
-                );
-            } else {
-                // Login with username
-                $stmt = $user->dbConnection->run(
-                    "SELECT id, username, email, password FROM users WHERE username = ? LIMIT 1", 
-                    [$loginInput]
-                );
+            // Controleer of alle velden zijn ingevuld
+            if (empty($loginInput)) {
+                $errors[] = "Gebruikersnaam of email is verplicht";
+            }
+            if (empty($password)) {
+                $errors[] = "Wachtwoord is verplicht";
             }
 
-            $fetchUser = $stmt->fetch(PDO::FETCH_ASSOC);
+            // Probeer in te loggen als er geen fouten zijn
+            if (empty($errors)) {
+                // Controleer of het een email of gebruikersnaam is
+                $isEmail = filter_var($loginInput, FILTER_VALIDATE_EMAIL);
+                
+                if ($isEmail) {
+                    // Inloggen met email
+                    $stmt = $user->dbConnection->run(
+                        "SELECT id, username, email, password FROM users WHERE email = ? LIMIT 1", 
+                        [$loginInput]
+                    );
+                } else {
+                    // Inloggen met gebruikersnaam
+                    $stmt = $user->dbConnection->run(
+                        "SELECT id, username, email, password FROM users WHERE username = ? LIMIT 1", 
+                        [$loginInput]
+                    );
+                }
 
-            // Check password and create session
-            if ($fetchUser && password_verify($password, $fetchUser['password'])) {
-                // Login successful - create session
-                session_regenerate_id(true);
-                $_SESSION['user_id'] = $fetchUser['id'];
-                $_SESSION['username'] = $fetchUser['username'];
-                $_SESSION['email'] = $fetchUser['email'];
-                $success = true;
-            } else {
-                $errors[] = "Verkeerde gebruikersnaam/email of wachtwoord";
+                $fetchUser = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                // Controleer het wachtwoord en maak een sessie aan
+                if ($fetchUser && password_verify($password, $fetchUser['password'])) {
+                    // Login succesvol - maak een nieuwe sessie aan
+                    session_regenerate_id(true);
+                    $_SESSION['user_id'] = $fetchUser['id'];
+                    $_SESSION['username'] = $fetchUser['username'];
+                    $_SESSION['email'] = $fetchUser['email'];
+                    $success = true;
+                } else {
+                    $errors[] = "Verkeerde gebruikersnaam/email of wachtwoord";
+                }
             }
         }
     }
@@ -96,6 +106,9 @@ try {
             <?php endif; ?>
 
             <form method='POST' class='user_form'>
+                <!-- Verborgen veld met CSRF token voor beveiliging tegen CSRF aanvallen -->
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                
                 <div class="form-group">
                     <input type='text' 
                            name='login' 

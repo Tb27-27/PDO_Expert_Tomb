@@ -2,7 +2,12 @@
 session_start();
 require_once "../includes/user-class.php";
 
-// Variables for form persistence
+// Maak een CSRF token aan als deze nog niet bestaat
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// Variabelen voor het vasthouden van formuliergegevens
 $email = '';
 $username = '';
 $errors = [];
@@ -10,76 +15,81 @@ $success = false;
 
 try {   
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $user = new User();
+        // Controleer eerst of het CSRF token geldig is
+        if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+            $errors[] = "Ongeldige beveiligingstoken. Vernieuw de pagina en probeer opnieuw.";
+        } else {
+            $user = new User();
 
-        // Get and clean the input
-        $email = trim($_POST['email'] ?? '');
-        $username = trim($_POST['username'] ?? '');
-        $password = $_POST['password'] ?? '';
+            // Haal de formuliergegevens op en verwijder spaties aan begin/eind
+            $email = trim($_POST['email'] ?? '');
+            $username = trim($_POST['username'] ?? '');
+            $password = $_POST['password'] ?? '';
 
-        // Check for empty fields
-        if (empty($email)) {
-            $errors[] = "Email is verplicht";
-        }
-        if (empty($username)) {
-            $errors[] = "Gebruikersnaam is verplicht";
-        }
-        if (empty($password)) {
-            $errors[] = "Wachtwoord is verplicht";
-        }
-
-        // Validate email format
-        if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = "Ongeldig emailadres";
-        }
-
-        // Check username requirements
-        if (!empty($username)) {
-            if (strlen($username) < 3) {
-                $errors[] = "Gebruikersnaam moet minimaal 3 karakters zijn";
+            // Controleer of alle velden zijn ingevuld
+            if (empty($email)) {
+                $errors[] = "Email is verplicht";
             }
-            if (!preg_match('/^[a-zA-Z0-9_-]+$/', $username)) {
-                $errors[] = "Gebruikersnaam mag alleen letters, cijfers, - en _ bevatten";
+            if (empty($username)) {
+                $errors[] = "Gebruikersnaam is verplicht";
             }
-        }
-
-        // Check password strength
-        if (!empty($password) && strlen($password) < 6) {
-            $errors[] = "Wachtwoord moet minimaal 6 karakters zijn";
-        }
-
-        // Check for duplicate accounts
-        if (empty($errors)) {
-            // Check if email already exists
-            $emailCheck = $user->dbConnection->run(
-                "SELECT 1 FROM users WHERE email = ? LIMIT 1",
-                [$email]
-            );
-
-            if ($emailCheck->fetchColumn() !== false) {
-                $errors[] = "Dit emailadres is al in gebruik";
+            if (empty($password)) {
+                $errors[] = "Wachtwoord is verplicht";
             }
 
-            // Check if username already exists
-            $usernameCheck = $user->dbConnection->run(
-                "SELECT 1 FROM users WHERE username = ? LIMIT 1",
-                [$username]
-            );
-
-            if ($usernameCheck->fetchColumn() !== false) {
-                $errors[] = "Deze gebruikersnaam is al in gebruik";
+            // Controleer of het emailadres een geldig formaat heeft
+            if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors[] = "Ongeldig emailadres";
             }
-        }
 
-        // Save user if everything is correct
-        if (empty($errors)) {
-            if ($user->registerUser($email, $username, $password)) {
-                $success = true;
-                // Clear form data on success
-                $email = '';
-                $username = '';
-            } else {
-                $errors[] = "Registratie is mislukt. Probeer het opnieuw.";
+            // Controleer de eisen voor de gebruikersnaam
+            if (!empty($username)) {
+                if (strlen($username) < 3) {
+                    $errors[] = "Gebruikersnaam moet minimaal 3 karakters zijn";
+                }
+                if (!preg_match('/^[a-zA-Z0-9_-]+$/', $username)) {
+                    $errors[] = "Gebruikersnaam mag alleen letters, cijfers, - en _ bevatten";
+                }
+            }
+
+            // Controleer de sterkte van het wachtwoord
+            if (!empty($password) && strlen($password) < 6) {
+                $errors[] = "Wachtwoord moet minimaal 6 karakters zijn";
+            }
+
+            // Controleer of er geen dubbele accounts zijn
+            if (empty($errors)) {
+                // Controleer of het emailadres al bestaat
+                $emailCheck = $user->dbConnection->run(
+                    "SELECT 1 FROM users WHERE email = ? LIMIT 1",
+                    [$email]
+                );
+
+                if ($emailCheck->fetchColumn() !== false) {
+                    $errors[] = "Dit emailadres is al in gebruik";
+                }
+
+                // Controleer of de gebruikersnaam al bestaat
+                $usernameCheck = $user->dbConnection->run(
+                    "SELECT 1 FROM users WHERE username = ? LIMIT 1",
+                    [$username]
+                );
+
+                if ($usernameCheck->fetchColumn() !== false) {
+                    $errors[] = "Deze gebruikersnaam is al in gebruik";
+                }
+            }
+
+            // Sla de gebruiker op als alles klopt
+            if (empty($errors)) {
+                if ($user->registerUser($email, $username, $password)) {
+                    $success = true;
+                    // Maak de formuliervelden leeg na succesvolle registratie
+                    $email = '';
+                    $username = '';
+                } else {
+                    $errors[] = "Registratie is mislukt. Probeer het opnieuw.";
+                }
             }
         }
     }
@@ -89,7 +99,7 @@ try {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -127,6 +137,9 @@ try {
 
         <?php if (!$success): ?>
             <form method="POST" class='user_form'>
+                <!-- Verborgen veld met CSRF token voor beveiliging tegen CSRF aanvallen -->
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                
                 <div class="form-group">
                     <input type="email" 
                            name="email" 

@@ -2,13 +2,18 @@
 session_start();
 require_once "../includes/product-class.php";
 
-// Check if user is logged in - protect this page
+// Maak een CSRF token aan als deze nog niet bestaat
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// Controleer of de gebruiker is ingelogd, anders doorsturen naar login pagina
 if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
     header("Location: ./login-user.php");
     exit();
 }
 
-// Variables for form and messages
+// Variabelen voor formulier en berichten
 $code = '';
 $omschrijving = '';
 $foto = '';
@@ -16,101 +21,106 @@ $prijs = '';
 $errors = [];
 $success = false;
 
-// Create product object
+// Maak een product object aan
 $product = new Product();
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Get and clean form data
-        $code = trim($_POST['code'] ?? '');
-        $omschrijving = trim($_POST['omschrijving'] ?? '');
-        $prijs = $_POST['prijs'] ?? '';
-        
-        // Handle file upload
-        $foto = ''; // Default empty
-        $uploadOk = 1;
-        
-        // Check if a file was uploaded
-        if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] == 0) {
-            $target_dir = "../uploads/";
+        // Controleer eerst of het CSRF token geldig is
+        if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+            $errors[] = "Ongeldige beveiligingstoken. Vernieuw de pagina en probeer opnieuw.";
+        } else {
+            // Haal de formuliergegevens op en verwijder spaties aan begin/eind
+            $code = trim($_POST['code'] ?? '');
+            $omschrijving = trim($_POST['omschrijving'] ?? '');
+            $prijs = $_POST['prijs'] ?? '';
             
-            // Create uploads directory if it doesn't exist
-            if (!file_exists($target_dir)) {
-                mkdir($target_dir, 0777, true);
-            }
+            // Variabelen voor het uploaden van bestanden
+            $foto = '';
+            $uploadCheck = 1;
             
-            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-            
-            // Check if image file is actual image
-            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-            if($check !== false) {
-                $uploadOk = 1;
-            } else {
-                $errors[] = "Bestand is geen geldige afbeelding";
-                $uploadOk = 0;
-            }
-            
-            // Check if file already exists
-            if (file_exists($target_file)) {
-                $errors[] = "Dit bestand bestaat al";
-                $uploadOk = 0;
-            }
-            
-            // Check file size (500KB max)
-            if ($_FILES["fileToUpload"]["size"] > 50000000) {
-                $errors[] = "Bestand is te groot (max 500MB)";
-                $uploadOk = 0;
-            }
-            
-            // Allow certain file formats
-            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-                $errors[] = "Alleen JPG, JPEG, PNG & GIF bestanden toegestaan";
-                $uploadOk = 0;
-            }
-            
-            // Try to upload file if everything is ok
-            if ($uploadOk == 1) {
-                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                    $foto = "uploads/" . basename($_FILES["fileToUpload"]["name"]);
+            // Controleer of er een bestand is geüpload
+            if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] == 0) {
+                $target_dir = "../uploads/";
+                
+                // Maak de uploads map aan als deze nog niet bestaat
+                if (!file_exists($target_dir)) {
+                    mkdir($target_dir, 0777, true);
+                }
+                
+                $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                
+                // Controleer of het bestand een echte afbeelding is
+                $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                if($check !== false) {
+                    $uploadCheck = 1;
                 } else {
-                    $errors[] = "Fout bij uploaden bestand";
+                    $errors[] = "Bestand is geen geldige afbeelding";
+                    $uploadCheck = 0;
+                }
+                
+                // Controleer of het bestand al bestaat
+                if (file_exists($target_file)) {
+                    $errors[] = "Dit bestand bestaat al";
+                    $uploadCheck = 0;
+                }
+                
+                // Controleer bestandsgrootte (maximaal 50MB)
+                if ($_FILES["fileToUpload"]["size"] > 50000000) {
+                    $errors[] = "Bestand is te groot (max 500MB)";
+                    $uploadCheck = 0;
+                }
+                
+                // Sta alleen bepaalde bestandsformaten toe
+                if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+                    $errors[] = "Alleen JPG, JPEG, PNG & GIF bestanden toegestaan";
+                    $uploadCheck = 0;
+                }
+                
+                // Probeer het bestand te uploaden als alles in orde is
+                if ($uploadCheck == 1) {
+                    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                        $foto = "uploads/" . basename($_FILES["fileToUpload"]["name"]);
+                    } else {
+                        $errors[] = "Fout bij uploaden bestand";
+                    }
                 }
             }
-        }
 
-        // Validate required fields
-        if (empty($code)) {
-            $errors[] = "Product code is verplicht";
-        }
-        if (empty($omschrijving)) {
-            $errors[] = "Omschrijving is verplicht";
-        }
-        if (empty($prijs)) {
-            $errors[] = "Prijs is verplicht";
-        }
+            // Controleer of alle verplichte velden zijn ingevuld
+            if (empty($code)) {
+                $errors[] = "Product code is verplicht";
+            }
+            if (empty($omschrijving)) {
+                $errors[] = "Omschrijving is verplicht";
+            }
+            if (empty($prijs)) {
+                $errors[] = "Prijs is verplicht";
+            }
 
-        // Validate price format
-        if (!empty($prijs) && (!is_numeric($prijs) || $prijs < 0)) {
-            $errors[] = "Prijs moet een geldig getal zijn groter dan 0";
-        }
+            // Controleer of de prijs een geldig nummer is
+            if (!empty($prijs) && (!is_numeric($prijs) || $prijs < 0)) {
+                $errors[] = "Prijs moet een geldig getal zijn groter dan 0";
+            }
 
-        // Check if code already exists
-        if (!empty($code) && $product->codeBestaatAl($code)) {
-            $errors[] = "Deze product code bestaat al";
-        }
+            // Controleer of de product code al bestaat in de database
+            if (!empty($code) && $product->codeBestaatAl($code)) {
+                $errors[] = "Deze product code bestaat al";
+            }
 
-        // If no errors, try to add the product
-        if (empty($errors)) {
-            if ($product->voegProductToe($code, $omschrijving, $foto, $prijs)) {
-                $success = true;
-                // Clear form data on success
-                $code = '';
-                $omschrijving = '';
-                $foto = '';
-                $prijs = '';
-            } else {
-                $errors[] = "Fout bij toevoegen van product. Probeer opnieuw.";
+            // Als er geen fouten zijn, probeer het product toe te voegen
+            if (empty($errors)) {
+                if ($product->voegProductToe($code, $omschrijving, $foto, $prijs)) {
+                    $success = true;
+                    // Maak de formuliervelden leeg na succesvolle toevoeging
+                    $code = '';
+                    $omschrijving = '';
+                    $foto = '';
+                    $prijs = '';
+                } else {
+                    $errors[] = "Fout bij toevoegen van product. Probeer opnieuw.";
+                }
             }
         }
     }
@@ -173,6 +183,9 @@ try {
             <?php endif; ?>
 
             <form method="POST" enctype="multipart/form-data" class='user_form'>
+                <!-- Verborgen veld met CSRF token voor beveiliging tegen CSRF aanvallen -->
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                
                 <div class="form-group">
                     <input type="text" 
                            name="code" 
