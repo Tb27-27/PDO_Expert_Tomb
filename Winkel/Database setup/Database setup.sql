@@ -25,4 +25,5 @@ INSERT INTO users (username, email, password) VALUES
 
 -- Insert dummy products
 INSERT INTO product (code, omschrijving, foto, prijsPerStuk) VALUES
+('LAPTOP001', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99),
 ('LAPTOP001', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99);
