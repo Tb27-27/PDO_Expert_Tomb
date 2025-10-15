@@ -23,7 +23,17 @@ INSERT INTO users (username, email, password) VALUES
 ('admin', 'admin@admin.com', '$2y$10$/JqDb7hNr2d762CsnG7ByO4EKIk6ZXIXrmkMq.UWcErUlM0vjxADy');
 
 
--- Insert dummy products
+-- Insert dummy products (dupes)
 INSERT INTO product (code, omschrijving, foto, prijsPerStuk) VALUES
 ('LAPTOP001', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99),
-('LAPTOP001', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99);
+('LAPTOP002', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99),
+('LAPTOP003', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99),
+('LAPTOP004', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99),
+('LAPTOP005', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99),
+('LAPTOP006', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99),
+('LAPTOP007', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99),
+('LAPTOP008', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99),
+('LAPTOP009', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99),
+('LAPTOP010', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99),
+('LAPTOP011', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99),
+('LAPTOP012', 'Gaming Laptop 15 inch met NVIDIA RTX grafische kaart, perfect voor gamen en werken', 'uploads/laptop.png', 899.99);

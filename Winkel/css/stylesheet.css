@@ -19,10 +19,9 @@ body {
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: cover; /* Resize the background image to cover the entire container */
 
-    height: auto;
     min-height: 100vh;
     margin: 0px;
-    
+    padding: 0px;    
     
     animation-name: shine;
     animation-duration: 4s;
@@ -103,7 +102,7 @@ body {
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     z-index: 2;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
     animation: fadeInUp 0.5s ease-out;
 }
 
@@ -792,4 +791,132 @@ body {
     display: block;
     margin-bottom: 10px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   SUCCESS NOTIFICATION STYLING
+   ============================================ */
+
+.success-notification {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border: 2px solid #34d399;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    color: white;
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+    animation: slideIn 0.5s ease-out;
+    position: relative;
+    overflow: hidden;
+    max-height: 200px;
+    transition: all 0.4s ease-out;
+}
+
+/* Closing state - animeert a;;es inclusief hoogte en margin */
+.success-notification.notification-closing {
+    opacity: 0;
+    transform: translateY(-30px) scaleY(0);
+    max-height: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border-width: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Success icon styling */
+.success-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+    animation: bounce 0.6s ease-out;
+}
+
+/* Success content (tekst) */
+.success-content {
+    flex: 1;
+    text-align: left;
+}
+
+.success-content strong {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.success-content p {
+    margin: 0;
+    font-size: 1rem;
+    opacity: 0.95;
+}
+
+/* Close button */
+.close-notification {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.close-notification:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+/* Slide in animatie */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Bounce in animatie voor icon */
+@keyframes bounce {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .success-notification {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .success-content {
+        text-align: center;
+    }
+    
+    .close-notification {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
 }
