@@ -156,13 +156,13 @@ try {
             </div>
             
             <div class='action-buttons'>
-                <a href='./view-product.php' class='user_button'>Naar product overzicht</a>
+                <a href='./view-products.php' class='user_button'>Naar product overzicht</a>
                 <a href='./insert-product.php' class='secondary-button'>Nog een product toevoegen</a>
             </div>
             
             <script>
                 setTimeout(function() {
-                    window.location.href = './view-product.php';
+                    window.location.href = './view-products.php';
                 }, 3000);
             </script>
             
@@ -230,7 +230,7 @@ try {
             <div class='divider'></div>
 
             <div class='action-buttons'>
-                <a href="./view-product.php" class="secondary-button">📋 Naar product overzicht</a>
+                <a href="./view-products.php" class="secondary-button">📋 Naar product overzicht</a>
                 <a href="../user/dashboard-user.php" class="secondary-button">← Terug naar dashboard</a>
             </div>
         <?php endif; ?>

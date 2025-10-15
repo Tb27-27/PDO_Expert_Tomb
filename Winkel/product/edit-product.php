@@ -16,7 +16,7 @@
 
     // Controleer of er een product ID is meegegeven via de URL
     if (!isset($_GET['id']) || empty($_GET['id'])) {
-        header("Location: ./view-product.php");
+        header("Location: ./view-products.php");
         exit();
     }
 
@@ -26,7 +26,7 @@
 
     // Als het product niet bestaat, doorsturen naar overzicht
     if (empty($product_info)) {
-        header("Location: ./view-product.php");
+        header("Location: ./view-products.php");
         exit();
     }
 
@@ -173,14 +173,14 @@
             </div>
             
             <div class='action-buttons'>
-                <a href='./view-product.php' class='user_button'>Naar product overzicht</a>
+                <a href='./view-products.php' class='user_button'>Naar product overzicht</a>
                 <a href='./edit-product.php?id=<?php echo $_GET['id']; ?>' class='secondary-button'>Product opnieuw bewerken</a>
             </div>
             
             <script>
                 // Automatisch doorsturen naar overzicht na 3 seconden
                 setTimeout(function() {
-                    window.location.href = './view-product.php';
+                    window.location.href = './view-products.php';
                 }, 3000);
             </script>
             
@@ -294,7 +294,7 @@
             <div class='divider'></div>
 
             <div class='action-buttons'>
-                <a href="./view-product.php" class="secondary-button">📋 Terug naar product overzicht</a>
+                <a href="./view-products.php" class="secondary-button">📋 Terug naar product overzicht</a>
                 <a href="../user/dashboard-user.php" class="secondary-button">← Terug naar dashboard</a>
             </div>
         <?php endif; ?>

@@ -53,7 +53,7 @@ $aantalProducten = count($producten);
         <!-- Product management navigation -->
         <div class='action-buttons'>
             <a href="../product/insert-product.php" class="user_button">+ Product Toevoegen</a>
-            <a href="../product/view-product.php" class="user_button">📋 Producten Bekijken</a>
+            <a href="../product/view-products.php" class="user_button">📋 Producten Bekijken</a>
         </div>
         
         <div class='divider'></div>

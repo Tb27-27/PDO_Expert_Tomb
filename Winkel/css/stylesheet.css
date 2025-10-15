@@ -36,16 +36,24 @@ body {
 }
 
 .rain, .wisps {
-    position: absolute;
     top: 0;
     left: 0;
-    height: 100vh;
     width: 99vw;
     overflow: hidden;
     pointer-events: none;
     z-index: 1;
     
     margin: auto;
+}
+
+.rain {    
+    position: fixed;
+    height: 100vh;
+}
+
+.wisps {
+    position: absolute;
+    min-height: 100vh;
 }
 
 .droplet {
@@ -715,7 +723,7 @@ body {
     }
     
     .user_form input {
-        font-size: 16px; /* Prevents zoom on iOS */
+        font-size: 16px;
     }
     
     .login_button, .user_button {
@@ -737,4 +745,51 @@ body {
 .single_product_container {
     max-width: 900px;
     width: 900px;
+}
+
+
+/* 
+============================================
+   DELETE PRODUCT PAGINA STYLING
+============================================ 
+*/
+
+/* Formulier container voor delete pagina */
+.delete-form {
+    width: 100%;
+    margin: 20px 0;
+}
+
+/* Waarschuwingsbericht - Opvallend en belangrijk */
+.warning-message {
+    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+    border: 3px solid #ff0000;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 25px 0;
+    color: white;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+    animation: pulse-warning 2s ease-in-out infinite;
+    font-size: 2rem;
+}
+
+/* Animatie voor waarschuwingsbericht */
+@keyframes pulse-warning {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+    }
+}
+
+/* Tekst in waarschuwingsbericht */
+.warning-message strong {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
