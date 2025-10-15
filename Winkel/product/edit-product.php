@@ -8,9 +8,9 @@
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
 
-    // Controleer of de gebruiker is ingelogd, anders doorsturen naar login pagina
+    // Check if user is logged in
     if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
-        header("Location: ./login-user.php");
+        header("Location: ../user/login-user.php");
         exit();
     }
 
