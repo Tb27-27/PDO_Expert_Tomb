@@ -10,6 +10,7 @@
 
 body {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
@@ -21,7 +22,8 @@ body {
 
     min-height: 100vh;
     margin: 0px;
-    padding: 0px;    
+    padding: 0px;
+    padding-top: 40px;    
     
     animation-name: shine;
     animation-duration: 4s;
@@ -799,7 +801,8 @@ body {
 
 .success-notification {
     display: flex;
-    align-items: center;
+    position: fixed;
+    top: 50px;
     gap: 15px;
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     border: 2px solid #34d399;
@@ -809,10 +812,10 @@ body {
     color: white;
     box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
     animation: slideIn 0.5s ease-out;
-    position: relative;
     overflow: hidden;
     max-height: 200px;
     transition: all 0.4s ease-out;
+    z-index: 100;
 }
 
 /* Closing state - animeert a;;es inclusief hoogte en margin */

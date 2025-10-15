@@ -24,46 +24,48 @@
     <!-- Rain -->
     <div class="rain"></div>
     <div class="wisps"></div>
-    
+
+            <?php
+                // Controleer of er een succesbericht in de sessie staat
+                if (isset($_SESSION['success_message']) && !empty($_SESSION['success_message'])) {
+                    $success_msg = $_SESSION['success_message'];
+                    // Verwijder het bericht uit de sessie zodat het maar 1x wordt getoond
+                    unset($_SESSION['success_message']);
+                ?>
+                    <!-- Succesbericht met animatie -->
+                    <div class="success-notification" id="successNotification">
+                        <div class="success-icon">✅</div>
+                        <div class="success-content">
+                            <strong>Gelukt!</strong>
+                            <p><?php echo htmlspecialchars($success_msg); ?></p>
+                        </div>
+                        <button class="close-notification" onclick="closeNotification()">✕</button>
+                    </div>
+
+                    <script>
+                        // Sluit het succesbericht na 5 seconden automatisch
+                        setTimeout(function() {
+                            closeNotification();
+                        }, 5000);
+
+                        // Functie om het bericht te sluiten met smooth animatie
+                        function closeNotification() {
+                            const notification = document.getElementById('successNotification');
+                            if (notification) {
+                                // Voeg slideOut class toe voor de animatie
+                                notification.classList.add('notification-closing');
+                                // Verwijder het element na de animatie
+                                setTimeout(() => notification.remove(), 400);
+                            }
+                        }
+                    </script>
+                <?php
+                }
+            ?>
+
     <div class='user_container'>
 
-        <?php
-            // Controleer of er een succesbericht in de sessie staat
-            if (isset($_SESSION['success_message']) && !empty($_SESSION['success_message'])) {
-                $success_msg = $_SESSION['success_message'];
-                // Verwijder het bericht uit de sessie zodat het maar 1x wordt getoond
-                unset($_SESSION['success_message']);
-            ?>
-                <!-- Succesbericht met animatie -->
-                <div class="success-notification" id="successNotification">
-                    <div class="success-icon">✅</div>
-                    <div class="success-content">
-                        <strong>Gelukt!</strong>
-                        <p><?php echo htmlspecialchars($success_msg); ?></p>
-                    </div>
-                    <button class="close-notification" onclick="closeNotification()">✕</button>
-                </div>
 
-                <script>
-                    // Sluit het succesbericht na 5 seconden automatisch
-                    setTimeout(function() {
-                        closeNotification();
-                    }, 5000);
-
-                    // Functie om het bericht te sluiten met smooth animatie
-                    function closeNotification() {
-                        const notification = document.getElementById('successNotification');
-                        if (notification) {
-                            // Voeg slideOut class toe voor de animatie
-                            notification.classList.add('notification-closing');
-                            // Verwijder het element na de animatie
-                            setTimeout(() => notification.remove(), 400);
-                        }
-                    }
-                </script>
-            <?php
-            }
-        ?>
 
         <div class='login-icon'>📋</div>
         <h1>Product Overzicht</h1>
